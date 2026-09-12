@@ -10,8 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ComposeRouteImport } from './routes/compose'
 import { Route as ObservingRouteImport } from './routes/observing'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as StartNotebookRouteImport } from './routes/start-notebook'
 import { Route as TopicsAndToolsRouteImport } from './routes/topics-and-tools'
 import { Route as ContextContextIdRouteImport } from './routes/context.$contextId'
 import { Route as ToolToolIdRouteImport } from './routes/tool.$toolId'
@@ -24,6 +26,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComposeRoute = ComposeRouteImport.update({
+  id: '/compose',
+  path: '/compose',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ObservingRoute = ObservingRouteImport.update({
   id: '/observing',
   path: '/observing',
@@ -32,6 +39,11 @@ const ObservingRoute = ObservingRouteImport.update({
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StartNotebookRoute = StartNotebookRouteImport.update({
+  id: '/start-notebook',
+  path: '/start-notebook',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TopicsAndToolsRoute = TopicsAndToolsRouteImport.update({
@@ -67,8 +79,10 @@ const NotebookHandleSlugRoute = NotebookHandleSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/compose': typeof ComposeRoute
   '/observing': typeof ObservingRoute
   '/search': typeof SearchRoute
+  '/start-notebook': typeof StartNotebookRoute
   '/topics-and-tools': typeof TopicsAndToolsRoute
   '/context/$contextId': typeof ContextContextIdRoute
   '/tool/$toolId': typeof ToolToolIdRoute
@@ -78,8 +92,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/compose': typeof ComposeRoute
   '/observing': typeof ObservingRoute
   '/search': typeof SearchRoute
+  '/start-notebook': typeof StartNotebookRoute
   '/topics-and-tools': typeof TopicsAndToolsRoute
   '/context/$contextId': typeof ContextContextIdRoute
   '/tool/$toolId': typeof ToolToolIdRoute
@@ -90,8 +106,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/compose': typeof ComposeRoute
   '/observing': typeof ObservingRoute
   '/search': typeof SearchRoute
+  '/start-notebook': typeof StartNotebookRoute
   '/topics-and-tools': typeof TopicsAndToolsRoute
   '/context/$contextId': typeof ContextContextIdRoute
   '/tool/$toolId': typeof ToolToolIdRoute
@@ -103,8 +121,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/compose'
     | '/observing'
     | '/search'
+    | '/start-notebook'
     | '/topics-and-tools'
     | '/context/$contextId'
     | '/tool/$toolId'
@@ -114,8 +134,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/compose'
     | '/observing'
     | '/search'
+    | '/start-notebook'
     | '/topics-and-tools'
     | '/context/$contextId'
     | '/tool/$toolId'
@@ -125,8 +147,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/compose'
     | '/observing'
     | '/search'
+    | '/start-notebook'
     | '/topics-and-tools'
     | '/context/$contextId'
     | '/tool/$toolId'
@@ -137,8 +161,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ComposeRoute: typeof ComposeRoute
   ObservingRoute: typeof ObservingRoute
   SearchRoute: typeof SearchRoute
+  StartNotebookRoute: typeof StartNotebookRoute
   TopicsAndToolsRoute: typeof TopicsAndToolsRoute
   ContextContextIdRoute: typeof ContextContextIdRoute
   ToolToolIdRoute: typeof ToolToolIdRoute
@@ -156,6 +182,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/compose': {
+      id: '/compose'
+      path: '/compose'
+      fullPath: '/compose'
+      preLoaderRoute: typeof ComposeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/observing': {
       id: '/observing'
       path: '/observing'
@@ -168,6 +201,13 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/start-notebook': {
+      id: '/start-notebook'
+      path: '/start-notebook'
+      fullPath: '/start-notebook'
+      preLoaderRoute: typeof StartNotebookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/topics-and-tools': {
@@ -217,8 +257,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ComposeRoute: ComposeRoute,
   ObservingRoute: ObservingRoute,
   SearchRoute: SearchRoute,
+  StartNotebookRoute: StartNotebookRoute,
   TopicsAndToolsRoute: TopicsAndToolsRoute,
   ContextContextIdRoute: ContextContextIdRoute,
   ToolToolIdRoute: ToolToolIdRoute,

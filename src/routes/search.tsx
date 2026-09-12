@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ALL_TOOLS, ALL_TOPICS, NOTEBOOKS, NOTES, slugify } from "@/lib/data";
+import { ALL_TOOLS, ALL_TOPICS, NOTEBOOKS, NOTES } from "@/lib/data";
 import { NoteList, Page, Tag, TopicTag } from "@/components/inktella";
 
 export const Route = createFileRoute("/search")({
@@ -130,8 +130,6 @@ function Search() {
             )}
         </div>
       )}
-
-      <p className="sr-only">{slugify(q)}</p>
     </Page>
   );
 }
