@@ -1,0 +1,1 @@
+REVOKE ALL ON FUNCTION public.set_comment_depth() FROM PUBLIC, anon, authenticated;
