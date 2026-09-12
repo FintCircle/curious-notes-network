@@ -10,11 +10,25 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ObservingRouteImport } from './routes/observing'
+import { Route as TopicsAndToolsRouteImport } from './routes/topics-and-tools'
 import { Route as ContextContextIdRouteImport } from './routes/context.$contextId'
+import { Route as ToolToolIdRouteImport } from './routes/tool.$toolId'
+import { Route as TopicTopicIdRouteImport } from './routes/topic.$topicId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ObservingRoute = ObservingRouteImport.update({
+  id: '/observing',
+  path: '/observing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TopicsAndToolsRoute = TopicsAndToolsRouteImport.update({
+  id: '/topics-and-tools',
+  path: '/topics-and-tools',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContextContextIdRoute = ContextContextIdRouteImport.update({
@@ -22,31 +36,76 @@ const ContextContextIdRoute = ContextContextIdRouteImport.update({
   path: '/context/$contextId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolToolIdRoute = ToolToolIdRouteImport.update({
+  id: '/tool/$toolId',
+  path: '/tool/$toolId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TopicTopicIdRoute = TopicTopicIdRouteImport.update({
+  id: '/topic/$topicId',
+  path: '/topic/$topicId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/observing': typeof ObservingRoute
+  '/topics-and-tools': typeof TopicsAndToolsRoute
   '/context/$contextId': typeof ContextContextIdRoute
+  '/tool/$toolId': typeof ToolToolIdRoute
+  '/topic/$topicId': typeof TopicTopicIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/observing': typeof ObservingRoute
+  '/topics-and-tools': typeof TopicsAndToolsRoute
   '/context/$contextId': typeof ContextContextIdRoute
+  '/tool/$toolId': typeof ToolToolIdRoute
+  '/topic/$topicId': typeof TopicTopicIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/observing': typeof ObservingRoute
+  '/topics-and-tools': typeof TopicsAndToolsRoute
   '/context/$contextId': typeof ContextContextIdRoute
+  '/tool/$toolId': typeof ToolToolIdRoute
+  '/topic/$topicId': typeof TopicTopicIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/context/$contextId'
+  fullPaths:
+    | '/'
+    | '/observing'
+    | '/topics-and-tools'
+    | '/context/$contextId'
+    | '/tool/$toolId'
+    | '/topic/$topicId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/context/$contextId'
-  id: '__root__' | '/' | '/context/$contextId'
+  to:
+    | '/'
+    | '/observing'
+    | '/topics-and-tools'
+    | '/context/$contextId'
+    | '/tool/$toolId'
+    | '/topic/$topicId'
+  id:
+    | '__root__'
+    | '/'
+    | '/observing'
+    | '/topics-and-tools'
+    | '/context/$contextId'
+    | '/tool/$toolId'
+    | '/topic/$topicId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ObservingRoute: typeof ObservingRoute
+  TopicsAndToolsRoute: typeof TopicsAndToolsRoute
   ContextContextIdRoute: typeof ContextContextIdRoute
+  ToolToolIdRoute: typeof ToolToolIdRoute
+  TopicTopicIdRoute: typeof TopicTopicIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +117,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/observing': {
+      id: '/observing'
+      path: '/observing'
+      fullPath: '/observing'
+      preLoaderRoute: typeof ObservingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/topics-and-tools': {
+      id: '/topics-and-tools'
+      path: '/topics-and-tools'
+      fullPath: '/topics-and-tools'
+      preLoaderRoute: typeof TopicsAndToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/context/$contextId': {
       id: '/context/$contextId'
       path: '/context/$contextId'
@@ -65,12 +138,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContextContextIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tool/$toolId': {
+      id: '/tool/$toolId'
+      path: '/tool/$toolId'
+      fullPath: '/tool/$toolId'
+      preLoaderRoute: typeof ToolToolIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/topic/$topicId': {
+      id: '/topic/$topicId'
+      path: '/topic/$topicId'
+      fullPath: '/topic/$topicId'
+      preLoaderRoute: typeof TopicTopicIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ObservingRoute: ObservingRoute,
+  TopicsAndToolsRoute: TopicsAndToolsRoute,
   ContextContextIdRoute: ContextContextIdRoute,
+  ToolToolIdRoute: ToolToolIdRoute,
+  TopicTopicIdRoute: TopicTopicIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
