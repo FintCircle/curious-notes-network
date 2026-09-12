@@ -3,9 +3,10 @@ import { Avatar } from "@/components/inktella";
 
 const NAV = [
   { to: "/", label: "Discover", exact: true },
-  { to: "/observing", label: "Observing" },
-  { to: "/topics-and-tools", label: "Topics & Tools" },
+  { to: "/observing", label: "Observing", exact: false },
+  { to: "/topics-and-tools", label: "Topics & Tools", exact: false },
 ] as const;
+
 
 function SearchIcon() {
   return (
