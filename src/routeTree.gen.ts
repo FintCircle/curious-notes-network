@@ -11,10 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ObservingRouteImport } from './routes/observing'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as TopicsAndToolsRouteImport } from './routes/topics-and-tools'
 import { Route as ContextContextIdRouteImport } from './routes/context.$contextId'
 import { Route as ToolToolIdRouteImport } from './routes/tool.$toolId'
 import { Route as TopicTopicIdRouteImport } from './routes/topic.$topicId'
+import { Route as NotebookHandleIndexRouteImport } from './routes/notebook.$handle.index'
+import { Route as NotebookHandleSlugRouteImport } from './routes/notebook.$handle.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -24,6 +27,11 @@ const IndexRoute = IndexRouteImport.update({
 const ObservingRoute = ObservingRouteImport.update({
   id: '/observing',
   path: '/observing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TopicsAndToolsRoute = TopicsAndToolsRouteImport.update({
@@ -46,66 +54,97 @@ const TopicTopicIdRoute = TopicTopicIdRouteImport.update({
   path: '/topic/$topicId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NotebookHandleIndexRoute = NotebookHandleIndexRouteImport.update({
+  id: '/notebook/$handle/',
+  path: '/notebook/$handle/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotebookHandleSlugRoute = NotebookHandleSlugRouteImport.update({
+  id: '/notebook/$handle/$slug',
+  path: '/notebook/$handle/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/observing': typeof ObservingRoute
+  '/search': typeof SearchRoute
   '/topics-and-tools': typeof TopicsAndToolsRoute
   '/context/$contextId': typeof ContextContextIdRoute
   '/tool/$toolId': typeof ToolToolIdRoute
   '/topic/$topicId': typeof TopicTopicIdRoute
+  '/notebook/$handle/$slug': typeof NotebookHandleSlugRoute
+  '/notebook/$handle/': typeof NotebookHandleIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/observing': typeof ObservingRoute
+  '/search': typeof SearchRoute
   '/topics-and-tools': typeof TopicsAndToolsRoute
   '/context/$contextId': typeof ContextContextIdRoute
   '/tool/$toolId': typeof ToolToolIdRoute
   '/topic/$topicId': typeof TopicTopicIdRoute
+  '/notebook/$handle/$slug': typeof NotebookHandleSlugRoute
+  '/notebook/$handle': typeof NotebookHandleIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/observing': typeof ObservingRoute
+  '/search': typeof SearchRoute
   '/topics-and-tools': typeof TopicsAndToolsRoute
   '/context/$contextId': typeof ContextContextIdRoute
   '/tool/$toolId': typeof ToolToolIdRoute
   '/topic/$topicId': typeof TopicTopicIdRoute
+  '/notebook/$handle/$slug': typeof NotebookHandleSlugRoute
+  '/notebook/$handle/': typeof NotebookHandleIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/observing'
+    | '/search'
     | '/topics-and-tools'
     | '/context/$contextId'
     | '/tool/$toolId'
     | '/topic/$topicId'
+    | '/notebook/$handle/$slug'
+    | '/notebook/$handle/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/observing'
+    | '/search'
     | '/topics-and-tools'
     | '/context/$contextId'
     | '/tool/$toolId'
     | '/topic/$topicId'
+    | '/notebook/$handle/$slug'
+    | '/notebook/$handle'
   id:
     | '__root__'
     | '/'
     | '/observing'
+    | '/search'
     | '/topics-and-tools'
     | '/context/$contextId'
     | '/tool/$toolId'
     | '/topic/$topicId'
+    | '/notebook/$handle/$slug'
+    | '/notebook/$handle/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ObservingRoute: typeof ObservingRoute
+  SearchRoute: typeof SearchRoute
   TopicsAndToolsRoute: typeof TopicsAndToolsRoute
   ContextContextIdRoute: typeof ContextContextIdRoute
   ToolToolIdRoute: typeof ToolToolIdRoute
   TopicTopicIdRoute: typeof TopicTopicIdRoute
+  NotebookHandleSlugRoute: typeof NotebookHandleSlugRoute
+  NotebookHandleIndexRoute: typeof NotebookHandleIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -122,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/observing'
       fullPath: '/observing'
       preLoaderRoute: typeof ObservingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/topics-and-tools': {
@@ -152,16 +198,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TopicTopicIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/notebook/$handle/': {
+      id: '/notebook/$handle/'
+      path: '/notebook/$handle'
+      fullPath: '/notebook/$handle/'
+      preLoaderRoute: typeof NotebookHandleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notebook/$handle/$slug': {
+      id: '/notebook/$handle/$slug'
+      path: '/notebook/$handle/$slug'
+      fullPath: '/notebook/$handle/$slug'
+      preLoaderRoute: typeof NotebookHandleSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ObservingRoute: ObservingRoute,
+  SearchRoute: SearchRoute,
   TopicsAndToolsRoute: TopicsAndToolsRoute,
   ContextContextIdRoute: ContextContextIdRoute,
   ToolToolIdRoute: ToolToolIdRoute,
   TopicTopicIdRoute: TopicTopicIdRoute,
+  NotebookHandleSlugRoute: NotebookHandleSlugRoute,
+  NotebookHandleIndexRoute: NotebookHandleIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
