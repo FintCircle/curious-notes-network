@@ -20,6 +20,7 @@ function SearchIcon() {
 
 export function Header() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { user, profile, signOut } = useAuth();
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
