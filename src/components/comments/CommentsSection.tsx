@@ -114,7 +114,7 @@ export function CommentsSection({ noteRef }: { noteRef: string }) {
           />
         ) : (
           <div className="rounded-md border border-border bg-surface p-4 text-sm text-muted-foreground">
-            <Link to="/auth" search={{ redirect: undefined }} className="text-foreground underline underline-offset-4">
+            <Link to="/auth" search={{}} className="text-foreground underline underline-offset-4">
               Sign in
             </Link>{" "}
             to join this thread.
