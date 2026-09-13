@@ -1,7 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { contextById, noteById, notebookByHandle, notesByHandle } from "@/lib/data";
-import { Avatar, ContextLabel, Page, Tag, TopicTag } from "@/components/inktella";
+import { Avatar, ContextLabel, Tag, TopicTag } from "@/components/inktella";
+import { CommentsSection } from "@/components/comments/CommentsSection";
+import { noteRef } from "@/lib/comments";
 
 export const Route = createFileRoute("/notebook/$handle/$slug")({
   loader: ({ params }) => {
@@ -134,15 +136,7 @@ function NoteView() {
         </div>
       </section>
 
-      <section className="mt-8 border-t border-border pt-6">
-        <h2 className="text-sm font-medium">What are you thinking?</h2>
-        <textarea
-          rows={3}
-          aria-label="Reply to this Note"
-          placeholder="What are you thinking?"
-          className="mt-3 w-full resize-none rounded-md border border-input bg-surface p-3 text-sm outline-none placeholder:text-muted-foreground focus:border-ring"
-        />
-      </section>
+      <CommentsSection noteRef={noteRef(note.handle, note.slug)} />
 
       {more.length > 0 && (
         <section className="mt-10 border-t border-border pt-6">
