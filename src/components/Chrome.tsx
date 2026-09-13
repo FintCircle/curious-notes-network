@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Avatar } from "@/components/inktella";
+import { useAuth } from "@/hooks/useAuth";
 
 const NAV = [
   { to: "/", label: "Discover", exact: true },
@@ -19,6 +20,7 @@ function SearchIcon() {
 
 export function Header() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { user, profile, signOut } = useAuth();
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
@@ -56,9 +58,27 @@ export function Header() {
           >
             <span aria-hidden>+</span> Note
           </Link>
-          <Link to="/notebook/$handle" params={{ handle: "derrick" }} aria-label="Your account">
-            <Avatar name="Derrick" size={28} />
-          </Link>
+          {user ? (
+            <>
+              <span aria-hidden>
+                <Avatar name={profile?.display_name ?? "You"} size={28} />
+              </span>
+              <button
+                onClick={() => void signOut()}
+                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Sign out
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/auth"
+              search={{ redirect: pathname }}
+              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Sign in
+            </Link>
+          )}
         </div>
       </div>
     </header>

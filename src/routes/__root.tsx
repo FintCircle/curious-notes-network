@@ -13,6 +13,8 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/Chrome";
 import { MobileNav } from "@/components/MobileNav";
+import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "@/hooks/useAuth";
 
 function NotFoundComponent() {
   return (
@@ -122,6 +124,8 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+      <Toaster />
       <div className="flex min-h-screen flex-col">
         <Header />
         <main className="flex-1 pb-20 sm:pb-0">
@@ -139,6 +143,7 @@ function RootComponent() {
         </footer>
         <MobileNav />
       </div>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
