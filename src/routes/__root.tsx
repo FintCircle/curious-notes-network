@@ -143,6 +143,7 @@ function RootComponent() {
         </footer>
         <MobileNav />
       </div>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
