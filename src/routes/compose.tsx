@@ -1,7 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { ALL_TOOLS, ALL_TOPICS, CONTEXTS, type ContextId } from "@/lib/data";
 import { ContextDot } from "@/components/inktella";
+import { useAuth } from "@/hooks/useAuth";
+import { ensureNotebook, publishNote } from "@/lib/publish";
 
 export const Route = createFileRoute("/compose")({
   head: () => ({
@@ -27,6 +30,45 @@ function Compose() {
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [savedAt, setSavedAt] = useState<string | null>(null);
+  const [publishing, setPublishing] = useState(false);
+  const { user, profile } = useAuth();
+  const navigate = useNavigate();
+
+  const handlePublish = async () => {
+    if (!title || !context) return;
+    if (!user) {
+      void navigate({ to: "/auth", search: { redirect: "/compose" } });
+      return;
+    }
+    setPublishing(true);
+    try {
+      const notebook = await ensureNotebook(
+        user.id,
+        profile?.display_name ?? "Someone",
+        profile?.handle ?? null,
+      );
+      const known = new Set(ALL_TOOLS.map((t) => t.toLowerCase()));
+      const published = await publishNote({
+        userId: user.id,
+        notebook,
+        title: title.trim(),
+        body,
+        context,
+        topics: tags.filter((t) => !known.has(t.toLowerCase())),
+        tools: tags.filter((t) => known.has(t.toLowerCase())),
+      });
+      toast.success("Note published");
+      void navigate({
+        to: "/notebook/$handle/$slug",
+        params: { handle: published.handle, slug: published.slug },
+      });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not publish this Note");
+    } finally {
+      setPublishing(false);
+    }
+  };
+
 
   useEffect(() => {
     if (!title && !body) return;
@@ -160,12 +202,14 @@ function Compose() {
         <p className="meta mt-2">Start typing to find existing topics and tools.</p>
       </div>
 
-      <div className="mt-8 flex items-center justify-end border-t border-border pt-6">
+      <div className="mt-8 flex items-center justify-end gap-4 border-t border-border pt-6">
+        {!user && <span className="meta">Sign in to publish.</span>}
         <button
-          disabled={!title || !context}
+          onClick={() => void handlePublish()}
+          disabled={!title || !context || publishing}
           className="rounded-md bg-primary px-5 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
         >
-          Publish
+          {publishing ? "Publishing..." : "Publish"}
         </button>
       </div>
     </div>

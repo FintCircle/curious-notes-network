@@ -4,16 +4,23 @@ import { contextById, noteById, notebookByHandle, notesByHandle } from "@/lib/da
 import { Avatar, ContextLabel, Tag, TopicTag } from "@/components/inktella";
 import { CommentsSection } from "@/components/comments/CommentsSection";
 import { noteRef } from "@/lib/comments";
+import { getLiveNote, getLiveNotebook } from "@/lib/notes.functions";
 
 export const Route = createFileRoute("/notebook/$handle/$slug")({
-  loader: ({ params }) => {
-    const note = noteById(params.handle, params.slug);
-    const notebook = notebookByHandle(params.handle);
+  loader: async ({ params }) => {
+    const live = await getLiveNote({ data: { handle: params.handle, slug: params.slug } });
+    const note = live.note ?? noteById(params.handle, params.slug);
+    const notebook = live.notebook ?? notebookByHandle(params.handle);
     if (!note || !notebook) throw notFound();
+    const liveMore = live.note
+      ? (await getLiveNotebook({ data: { handle: params.handle } })).notes
+      : [];
     return {
       note,
       notebook,
-      more: notesByHandle(params.handle).filter((n) => n.slug !== params.slug).slice(0, 3),
+      more: [...liveMore, ...notesByHandle(params.handle)]
+        .filter((n) => n.slug !== params.slug)
+        .slice(0, 3),
     };
   },
   head: ({ params, loaderData }) => {
@@ -94,9 +101,6 @@ function NoteView() {
           {note.body.map((p) => (
             <p key={p}>{p}</p>
           ))}
-          <pre className="overflow-x-auto rounded-md border border-border bg-muted p-4 font-mono text-sm">
-            <code>{`// Example\nconst env = c.env;\nconst result = await env.DB.prepare(\n  "select 1"\n).all();`}</code>
-          </pre>
         </div>
       </article>
 

@@ -87,6 +87,101 @@ export type Database = {
           },
         ]
       }
+      notebooks: {
+        Row: {
+          about: string
+          bio: string
+          created_at: string
+          handle: string
+          id: string
+          link: string | null
+          owner_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          about?: string
+          bio?: string
+          created_at?: string
+          handle: string
+          id?: string
+          link?: string | null
+          owner_id: string
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          about?: string
+          bio?: string
+          created_at?: string
+          handle?: string
+          id?: string
+          link?: string | null
+          owner_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      notes: {
+        Row: {
+          author_id: string
+          body: string
+          context: string
+          created_at: string
+          handle: string
+          id: string
+          is_published: boolean
+          notebook_id: string
+          published_at: string | null
+          slug: string
+          title: string
+          tools: string[]
+          topics: string[]
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          body?: string
+          context: string
+          created_at?: string
+          handle: string
+          id?: string
+          is_published?: boolean
+          notebook_id: string
+          published_at?: string | null
+          slug: string
+          title: string
+          tools?: string[]
+          topics?: string[]
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          context?: string
+          created_at?: string
+          handle?: string
+          id?: string
+          is_published?: boolean
+          notebook_id?: string
+          published_at?: string | null
+          slug?: string
+          title?: string
+          tools?: string[]
+          topics?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notes_notebook_id_fkey"
+            columns: ["notebook_id"]
+            isOneToOne: false
+            referencedRelation: "notebooks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           bio: string | null

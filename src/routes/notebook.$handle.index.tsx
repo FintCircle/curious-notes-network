@@ -2,12 +2,14 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { notebookByHandle, notesByHandle } from "@/lib/data";
 import { Avatar, ContextLabel, Empty, Page, Tag } from "@/components/inktella";
+import { getLiveNotebook } from "@/lib/notes.functions";
 
 export const Route = createFileRoute("/notebook/$handle/")({
-  loader: ({ params }) => {
-    const notebook = notebookByHandle(params.handle);
+  loader: async ({ params }) => {
+    const live = await getLiveNotebook({ data: { handle: params.handle } });
+    const notebook = live.notebook ?? notebookByHandle(params.handle);
     if (!notebook) throw notFound();
-    return { notebook, notes: notesByHandle(params.handle) };
+    return { notebook, notes: [...live.notes, ...notesByHandle(params.handle)] };
   },
   head: ({ params, loaderData }) => {
     if (!loaderData) {
