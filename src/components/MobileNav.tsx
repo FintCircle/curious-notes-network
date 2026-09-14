@@ -1,4 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
+import { Compass, Eye, Plus, Search, User } from "lucide-react";
 import type { ReactNode } from "react";
 
 function Item({
