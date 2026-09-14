@@ -202,12 +202,14 @@ function Compose() {
         <p className="meta mt-2">Start typing to find existing topics and tools.</p>
       </div>
 
-      <div className="mt-8 flex items-center justify-end border-t border-border pt-6">
+      <div className="mt-8 flex items-center justify-end gap-4 border-t border-border pt-6">
+        {!user && <span className="meta">Sign in to publish.</span>}
         <button
-          disabled={!title || !context}
+          onClick={() => void handlePublish()}
+          disabled={!title || !context || publishing}
           className="rounded-md bg-primary px-5 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
         >
-          Publish
+          {publishing ? "Publishing..." : "Publish"}
         </button>
       </div>
     </div>
