@@ -30,6 +30,45 @@ function Compose() {
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [savedAt, setSavedAt] = useState<string | null>(null);
+  const [publishing, setPublishing] = useState(false);
+  const { user, profile } = useAuth();
+  const navigate = useNavigate();
+
+  const handlePublish = async () => {
+    if (!title || !context) return;
+    if (!user) {
+      void navigate({ to: "/auth", search: { redirect: "/compose" } });
+      return;
+    }
+    setPublishing(true);
+    try {
+      const notebook = await ensureNotebook(
+        user.id,
+        profile?.display_name ?? "Someone",
+        profile?.handle ?? null,
+      );
+      const known = new Set(ALL_TOOLS.map((t) => t.toLowerCase()));
+      const published = await publishNote({
+        userId: user.id,
+        notebook,
+        title: title.trim(),
+        body,
+        context,
+        topics: tags.filter((t) => !known.has(t.toLowerCase())),
+        tools: tags.filter((t) => known.has(t.toLowerCase())),
+      });
+      toast.success("Note published");
+      void navigate({
+        to: "/notebook/$handle/$slug",
+        params: { handle: published.handle, slug: published.slug },
+      });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not publish this Note");
+    } finally {
+      setPublishing(false);
+    }
+  };
+
 
   useEffect(() => {
     if (!title && !body) return;
