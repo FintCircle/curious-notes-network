@@ -1,4 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
+import { Compass, Eye, Plus, Search, User } from "lucide-react";
 import type { ReactNode } from "react";
 
 function Item({
@@ -32,23 +33,31 @@ export function MobileNav() {
     >
       <div className="mx-auto flex max-w-md items-stretch justify-between px-2 pb-[env(safe-area-inset-bottom)]">
         <Link to="/" className="flex-1">
-          <Item active={pathname === "/"} label="Discover" />
+          <Item active={pathname === "/"} label="Discover">
+            <Compass size={20} strokeWidth={1.75} />
+          </Item>
         </Link>
         <Link to="/observing" className="flex-1">
-          <Item active={pathname.startsWith("/observing")} label="Observing" />
+          <Item active={pathname.startsWith("/observing")} label="Observing">
+            <Eye size={20} strokeWidth={1.75} />
+          </Item>
         </Link>
         <Link to="/compose" className="flex-1">
           <Item active={pathname.startsWith("/compose")} label="Note">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-base leading-none text-primary-foreground">
-              +
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-primary-foreground">
+              <Plus size={18} strokeWidth={2.5} />
             </span>
           </Item>
         </Link>
         <Link to="/search" className="flex-1">
-          <Item active={pathname.startsWith("/search")} label="Search" />
+          <Item active={pathname.startsWith("/search")} label="Search">
+            <Search size={20} strokeWidth={1.75} />
+          </Item>
         </Link>
         <Link to="/notebook/$handle" params={{ handle: "derrick" }} className="flex-1">
-          <Item active={pathname.startsWith("/notebook/derrick")} label="Me" />
+          <Item active={pathname.startsWith("/notebook/derrick")} label="Me">
+            <User size={20} strokeWidth={1.75} />
+          </Item>
         </Link>
       </div>
     </nav>
