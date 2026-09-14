@@ -34,15 +34,17 @@ export const Route = createFileRoute("/")({
 
 const TABS = ["For you", "Fresh", "From new Notebooks"] as const;
 
-function tabNotes(tab: (typeof TABS)[number]): Note[] {
-  if (tab === "Fresh") return [...NOTES].slice(2, 9);
+function tabNotes(tab: (typeof TABS)[number], live: Note[]): Note[] {
+  if (tab === "Fresh") return [...live, ...NOTES.slice(2, 9)];
   if (tab === "From new Notebooks")
-    return NOTES.filter((n) => ["theo", "kai", "lena", "jon"].includes(n.handle));
-  return NOTES.slice(0, 7);
+    return [...live, ...NOTES.filter((n) => ["theo", "kai", "lena", "jon"].includes(n.handle))];
+  return [...live, ...NOTES.slice(0, 7)];
 }
 
 function Discover() {
   const [tab, setTab] = useState<(typeof TABS)[number]>("For you");
+  const { live } = Route.useLoaderData();
+
 
   return (
     <Page>
