@@ -7,8 +7,10 @@ import {
   type Note,
 } from "@/lib/data";
 import { ContextDot, NoteList, Page, SectionHeading, Tag } from "@/components/inktella";
+import { listLiveNotes } from "@/lib/notes.functions";
 
 export const Route = createFileRoute("/")({
+  loader: async () => ({ live: await listLiveNotes() }),
   head: () => ({
     meta: [
       { title: "Discover — Inktella" },
