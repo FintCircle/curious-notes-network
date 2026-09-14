@@ -101,9 +101,6 @@ function NoteView() {
           {note.body.map((p) => (
             <p key={p}>{p}</p>
           ))}
-          <pre className="overflow-x-auto rounded-md border border-border bg-muted p-4 font-mono text-sm">
-            <code>{`// Example\nconst env = c.env;\nconst result = await env.DB.prepare(\n  "select 1"\n).all();`}</code>
-          </pre>
         </div>
       </article>
 

@@ -104,7 +104,7 @@ function Discover() {
             </button>
           ))}
         </div>
-        <NoteList notes={tabNotes(tab)} />
+        <NoteList notes={tabNotes(tab, live)} />
       </section>
 
       <section className="mt-10 border-t border-border pt-6">
