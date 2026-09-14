@@ -1,7 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { ALL_TOOLS, ALL_TOPICS, CONTEXTS, type ContextId } from "@/lib/data";
 import { ContextDot } from "@/components/inktella";
+import { useAuth } from "@/hooks/useAuth";
+import { ensureNotebook, publishNote } from "@/lib/publish";
 
 export const Route = createFileRoute("/compose")({
   head: () => ({
